@@ -2,5 +2,9 @@
 name = "subtale-cortex"
 version = "0.1.0"
 edition = "2021"
-
-[dependencies]
+authors = ["Luke Carr <luke@subtale.com>"]
+description = "Crash handling for Rust applications"
+homepage = "https://cortex.subtale.com"
+repository = "https://github.com/subtalegames/cortex"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
