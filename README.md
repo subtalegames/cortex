@@ -23,13 +23,19 @@ fn crash_handler(output: std::process::Output) {
 fn main() {
     let result = CrashHandler::with_process(run_application)
         .crash_handler(crash_handler)
-        .full_backtrace() // Use `RUST_BACKTRACE` full in your application process
+        // Use `RUST_BACKTRACE` full in your application process
+        .full_backtrace()
         .run();
 
     match result {
-        Ok(true) => ..,  // The application process finished successfully
-        Ok(false) => .., // The application process crashed, but the error was handled successfully
-        Err(e) => ..,    // An error was encountered spawning the application or when crash handling
+        // The application process finished successfully
+        Ok(true) => ..,
+        // The application process crashed, but the error was
+        // handled successfully
+        Ok(false) => ..,
+        // An error was encountered spawning the application or
+        // when crash handling
+        Err(e) => ..,
     }
 }
 ```
