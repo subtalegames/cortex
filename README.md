@@ -16,7 +16,7 @@ fn run_application() {
     // Your application logic...
 }
 
-fn crash_handler(output: std::process::Output) {
+fn crash_handler(output: std::process::Output) -> Result<(), Box<dyn std::error::Error>> {
     // Handle the output of the application process when it crashes
 }
 
@@ -39,6 +39,8 @@ fn main() {
     }
 }
 ```
+
+The [examples](examples/) directory has specific implementation examples, including using the [native-dialog][native-dialog] for cross-platform message boxes and running a [Bevy][bevy] game within the crash handler.
 
 ## How it works
 
@@ -66,3 +68,5 @@ Unless you explicitly state otherwise, any contribution intentionally submitted 
 [mit]: LICENSE-MIT
 [apache]: LICENSE-APACHE
 [inspiration]: https://web.archive.org/web/20230324021914/https://www.anthropicstudios.com/2021/03/05/crash-reporter/
+[native-dialog]: https://github.com/native-dialog-rs/native-dialog-rs
+[bevy]: https://github.com/bevyengine/bevy
