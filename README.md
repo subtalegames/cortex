@@ -4,7 +4,45 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square&labelColor=%2314213D&color=%23FCA311)][mit]
 [![Apache-2.0 License](https://img.shields.io/badge/license-Apache--2.0-brightgreen?style=flat-square&labelColor=%2314213D&color=%23FCA311)][apache]
 
-> Cortex is a flexible crash handling and reporting solution for applications written in Rust.
+> Cortex is a flexible crash handling solution for applications written in Rust.
+
+## Example
+
+```rs
+use subtale_cortex::CrashHandler;
+
+fn run_application() {
+    // Your application logic...
+}
+
+fn crash_handler(output: std::process::Output) {
+    // Handle the output of the application process when it crashes
+}
+
+fn main() {
+    let result = CrashHandler::with_process(run_application)
+        .crash_handler(crash_handler)
+        .full_backtrace() // Use `RUST_BACKTRACE` full in your application process
+        .run();
+
+    match result {
+        Ok(true) => ..,  // The application process finished successfully
+        Ok(false) => .., // The application process crashed, but the error was handled successfully
+        Err(e) => ..,    // An error was encountered spawning the application or when crash handling
+    }
+}
+```
+
+## How it works
+
+Cortex uses the crash handling approach described in a [blog post][inspiration] by Mason Remaley (Anthropic Studios) from March 2021.
+
+The crash handling implementation is simple and straight forward: when the application is launched, invoke the application again as a subprocess of itself, and monitor the subprocess for non-successful exit codes.
+
+To prevent the application from recursively invoking itself until infinity, a command argument (`--cortex-child`) is used to identify whether the process is the crash handler (and so a subprocess should be invoked) or a subprocess.
+
+For example, the first time that the application is run, Cortex identifies that the `--cortex-child` argument is not present. The application is then self-spawned as a subprocess, this time with the `--cortex-child` argument included
+so the regular application logic (`run_application()` in the example above) can start.
 
 ## License
 
@@ -19,3 +57,4 @@ Unless you explicitly state otherwise, any contribution intentionally submitted 
 [oss]: https://oss.subtale.com
 [mit]: LICENSE-MIT
 [apache]: LICENSE-APACHE
+[inspiration]: https://web.archive.org/web/20230324021914/https://www.anthropicstudios.com/2021/03/05/crash-reporter/
