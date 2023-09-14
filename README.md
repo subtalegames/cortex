@@ -1,9 +1,9 @@
 # Cortex
 
-[![OSS by Subtale](https://img.shields.io/badge/oss_by-subtale-white?style=flat-square&labelColor=%2314213D&color=%23FCA311)][oss]
-[![Crates.io](https://img.shields.io/crates/v/subtale-cortex?style=flat-square&label=latest&labelColor=14213D&color=FCA311)][crate]
-[![MIT License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square&labelColor=%2314213D&color=%23FCA311)][mit]
-[![Apache-2.0 License](https://img.shields.io/badge/license-Apache--2.0-brightgreen?style=flat-square&labelColor=%2314213D&color=%23FCA311)][apache]
+[![OSS by Subtale](https://img.shields.io/badge/oss_by-subtale-white?style=flat-square&labelColor=14213D&color=E5E5E5)][oss]
+[![Crates.io](https://img.shields.io/crates/v/subtale-cortex?style=flat-square&label=latest&labelColor=14213D&color=E5E5E5)][crate]
+[![MIT License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square&labelColor=14213D&color=E5E5E5)][mit]
+[![Apache-2.0 License](https://img.shields.io/badge/license-Apache--2.0-brightgreen?style=flat-square&labelColor=14213D&color=E5E5E5)][apache]
 
 > Cortex is a flexible crash-handling solution for applications written in Rust.
 
