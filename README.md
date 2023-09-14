@@ -35,14 +35,14 @@ fn main() {
 
 ## How it works
 
-Cortex uses the crash handling approach described in a [blog post][inspiration] by Mason Remaley (Anthropic Studios) from March 2021.
+Cortex uses the crash handling approach described in [this blog post][inspiration] by Mason Remaley (Anthropic Studios) from March 2021.
 
 The crash handling implementation is simple and straight forward: when the application is launched, invoke the application again as a subprocess of itself, and monitor the subprocess for non-successful exit codes.
 
 To prevent the application from recursively invoking itself until infinity, a command argument (`--cortex-child`) is used to identify whether the process is the crash handler (and so a subprocess should be invoked) or a subprocess.
 
-For example, the first time that the application is run, Cortex identifies that the `--cortex-child` argument is not present. The application is then self-spawned as a subprocess, this time with the `--cortex-child` argument included
-so the regular application logic (`run_application()` in the example above) can start.
+> For example, the first time that the application is run, Cortex identifies that the `--cortex-child` argument is not present. The application is then self-spawned as a subprocess, this time with the `--cortex-child` argument included
+> so the regular application logic (`run_application()` in the example above) can start.
 
 ## License
 
