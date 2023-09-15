@@ -1,9 +1,39 @@
+use std::sync::Arc;
+
+#[cfg(feature = "seh")]
+use {lazy_static::lazy_static, std::sync::Mutex};
+
+#[cfg(feature = "seh")]
+#[repr(C)]
+pub struct ExceptionInfo {
+    code: u32,
+    exception_address: *const (),
+}
+
+#[cfg(feature = "seh")]
+extern "C" {
+    fn run_with_seh(callback: extern "C" fn()) -> ExceptionInfo;
+}
+
+#[cfg(feature = "seh")]
+lazy_static! {
+    static ref GLOBAL_PROCESS_CLOSURE: Mutex<Option<Arc<dyn Fn() + Send + Sync>>> =
+        Mutex::new(None);
+}
+
+#[cfg(feature = "seh")]
+extern "C" fn invoke_global_closure() {
+    if let Some(ref closure) = *GLOBAL_PROCESS_CLOSURE.lock().unwrap() {
+        closure();
+    }
+}
+
 /// A wrapper around a process closure that handles crashes by running the
 /// closure as a subprocess and invoking a crash handler closure if the
 /// subprocess fails.
 pub struct CrashHandler {
     /// Closure that runs a process.
-    process_closure: Box<dyn Fn()>,
+    process_closure: Arc<dyn Fn() + Send + Sync + 'static>,
     /// Command line flag that identifies a child process (and prevents infinite
     /// recursion of spawning subprocesses).
     child_flag: String,
@@ -22,7 +52,7 @@ impl Default for CrashHandler {
     /// `eprintln!`, and `RUST_BACKTRACE=full`).
     fn default() -> Self {
         Self {
-            process_closure: Box::new(|| println!("Hello, world!")),
+            process_closure: Arc::new(|| println!("Hello, world!")),
             child_flag: "--cortex-child".to_string(),
             crash_handler_closure: Box::new(|output| {
                 let status = output.status.code().unwrap_or(-1);
@@ -41,9 +71,9 @@ impl CrashHandler {
     pub fn new() -> Self { Self::default() }
 
     /// Create a new crash reporter from the given closure that runs a process.
-    pub fn with_process(process: impl Fn() + 'static) -> Self {
+    pub fn with_process(process: impl Fn() + Send + Sync + 'static) -> Self {
         Self {
-            process_closure: Box::new(process),
+            process_closure: Arc::new(process),
             ..Default::default()
         }
     }
@@ -97,8 +127,25 @@ impl CrashHandler {
             args.remove(0);
             args.push(self.child_flag.clone());
 
-            // Spawn current exe as subprocess and read process output
-            let output = std::process::Command::new(std::env::current_exe()?)
+            #[cfg(all(target_os = "windows", feature = "seh"))]
+            {
+                *GLOBAL_PROCESS_CLOSURE.lock().unwrap() = Some(self.process_closure.clone());
+
+                let exception_info = unsafe { run_with_seh(invoke_global_closure) };
+
+                if exception_info.code != 0 {
+                    eprintln!(
+                        "Error code: {:#x}\nException Address: {:?}",
+                        exception_info.code, exception_info.exception_address
+                    );
+                    return Ok(false);
+                }
+            }
+
+            #[cfg(not(all(target_os = "windows", feature = "seh")))]
+            {
+                // Spawn current exe as subprocess and read process output
+                let output = std::process::Command::new(std::env::current_exe()?)
                 // Passthrough the current arguments
                 .args(args)
                 // Passthrough the current environment
@@ -108,10 +155,11 @@ impl CrashHandler {
                 // Spawn the subprocess and capture its output
                 .output()?;
 
-            // If the subprocess failed, call the crash handler closure
-            if !output.status.success() {
-                (self.crash_handler_closure)(output)?;
-                return Ok(false);
+                // If the subprocess failed, call the crash handler closure
+                if !output.status.success() {
+                    (self.crash_handler_closure)(output)?;
+                    return Ok(false);
+                }
             }
         }
 

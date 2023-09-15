@@ -9,6 +9,18 @@ repository = "https://github.com/subtalegames/cortex"
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 
+[features]
+seh = ["lazy_static"]
+
+[dependencies]
+lazy_static = { version = "1.4", optional = true }
+
 [dev-dependencies]
-bevy = "0.11"
 native-dialog = "0.6"
+
+[build-dependencies]
+cc = "1.0"
+
+[[example]]
+name = "windows_seh"
+required-features = ["seh"]
