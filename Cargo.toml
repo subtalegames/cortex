@@ -10,5 +10,5 @@ license = "MIT OR Apache-2.0"
 readme = "README.md"
 
 [dev-dependencies]
-bevy = "0.12"
+bevy = "0.13"
 native-dialog = "0.7"
