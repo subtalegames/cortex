@@ -1,6 +1,7 @@
 # Cortex
 
 [![OSS by Subtale](https://img.shields.io/badge/oss_by-subtale-white?style=flat-square&labelColor=14213D&color=E5E5E5)][oss]
+[![Chat on Discord](https://img.shields.io/badge/chat_on-discord-white?style=flat-square&labelColor=14213D&color=E5E5E5)][discord]
 [![Crates.io](https://img.shields.io/crates/v/subtale-cortex?style=flat-square&label=latest&labelColor=14213D&color=E5E5E5)][crate]
 [![MIT License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square&labelColor=14213D&color=E5E5E5)][mit]
 [![Apache-2.0 License](https://img.shields.io/badge/license-Apache--2.0-brightgreen?style=flat-square&labelColor=14213D&color=E5E5E5)][apache]
@@ -63,7 +64,8 @@ This licensing approach is the de facto standard within the Rust ecosystem.
 
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
 
-[oss]: https://oss.subtale.com
+[oss]: https://subtale.dev
+[discord]: https://discord.subtale.com
 [crate]: https://crates.io/crates/subtale-cortex
 [mit]: LICENSE-MIT
 [apache]: LICENSE-APACHE
