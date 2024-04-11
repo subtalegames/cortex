@@ -1,6 +1,7 @@
 # Cortex
 
-[![OSS by Subtale](https://img.shields.io/badge/oss_by-subtale-white?style=flat-square&labelColor=14213D&color=E5E5E5)][oss]
+[![OSS by Subtale](https://img.shields.io/badge/oss_by-subtale-white?style=flat-square&labelColor=14213D&color=E5E5E5)][![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsubtalegames%2Fcortex.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsubtalegames%2Fcortex?ref=badge_shield)
+[oss]
 [![Chat on Discord](https://img.shields.io/badge/chat_on-discord-white?style=flat-square&labelColor=14213D&color=E5E5E5)][discord]
 [![Crates.io](https://img.shields.io/crates/v/subtale-cortex?style=flat-square&label=latest&labelColor=14213D&color=E5E5E5)][crate]
 [![MIT License](https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square&labelColor=14213D&color=E5E5E5)][mit]
@@ -59,6 +60,9 @@ To prevent the application from recursively invoking itself until infinity, a co
 Cortex is free and open source. Unless explicitly noted otherwise, all code in this repository is dual-licensed under the [MIT License][mit] and [Apache License, Version 2.0][apache].
 
 This licensing approach is the de facto standard within the Rust ecosystem.
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsubtalegames%2Fcortex.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsubtalegames%2Fcortex?ref=badge_large)
 
 ### Contributions
 
